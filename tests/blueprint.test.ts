@@ -84,6 +84,38 @@ describe('buildBlueprint — users.yaml (no tags)', () => {
     });
 });
 
+describe('formatTypeNode — invalid identifier property names', () => {
+    it('quotes property names with dots', () => {
+        const ctx = createContext();
+        const result = toTypeNode(
+            {
+                type: 'object',
+                required: ['api_key.created'],
+                properties: { 'api_key.created': { type: 'string' } },
+            } as any,
+            ctx,
+            'loc',
+            0,
+        );
+        expect(formatTypeNode(result)).toBe('{ "api_key.created": string }');
+    });
+
+    it('leaves valid identifier names unquoted', () => {
+        const ctx = createContext();
+        const result = toTypeNode(
+            {
+                type: 'object',
+                required: ['userId'],
+                properties: { userId: { type: 'string' } },
+            } as any,
+            ctx,
+            'loc',
+            0,
+        );
+        expect(formatTypeNode(result)).toBe('{ userId: string }');
+    });
+});
+
 describe('toTypeNode — additionalProperties edge cases', () => {
     it('treats `true` as an unknown index type', () => {
         const ctx = createContext();

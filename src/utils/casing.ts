@@ -28,6 +28,19 @@ export function isValidIdentifier(input: string): boolean {
     return /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(input) && !RESERVED.has(input);
 }
 
+/**
+ * Convert a string into a valid TypeScript identifier by replacing
+ * invalid character runs with underscores and prefixing leading digits.
+ * Used for sanitizing schema names from real-world specs (e.g. OpenAI's
+ * `ConversationParam-2` → `ConversationParam_2`).
+ */
+export function sanitizeIdentifier(input: string): string {
+    let result = input.replace(/[^a-zA-Z0-9_$]+/g, '_');
+    if (/^[0-9]/.test(result)) result = '_' + result;
+    if (RESERVED.has(result)) result = '_' + result;
+    return result;
+}
+
 function capitalize(word: string): string {
     if (word.length === 0) return word;
     return word[0]!.toUpperCase() + word.slice(1).toLowerCase();

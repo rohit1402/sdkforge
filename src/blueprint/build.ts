@@ -1,5 +1,5 @@
 import type { OpenAPIV3 } from 'openapi-types';
-import { camelCase, isValidIdentifier } from '../utils/casing';
+import { camelCase, isValidIdentifier, sanitizeIdentifier } from '../utils/casing';
 import { type BlueprintContext, createContext } from './context';
 import { dedupeNames, resolveOperationName, resolveResourceName } from './naming';
 import { toTypeNode } from './schema';
@@ -47,8 +47,16 @@ function buildMeta(doc: OpenAPIV3.Document): SdkMetadata {
 
 function buildNamedTypes(doc: OpenAPIV3.Document, ctx: BlueprintContext): Record<string, TypeNode> {
     const out: Record<string, TypeNode> = {};
-    for (const [name, schema] of Object.entries(doc.components?.schemas ?? {})) {
-        out[name] = toTypeNode(schema, ctx, `components.schemas.${name}`, 0);
+    for (const [rawName, schema] of Object.entries(doc.components?.schemas ?? {})) {
+        const name = sanitizeIdentifier(rawName);
+        if (name !== rawName && out[name]) {
+            ctx.warn(
+                'name-collision',
+                `schema name "${rawName}" collides with "${name}" after sanitization`,
+                `components.schemas.${rawName}`,
+            );
+        }
+        out[name] = toTypeNode(schema, ctx, `components.schemas.${rawName}`, 0);
     }
     return out;
 }

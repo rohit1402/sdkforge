@@ -1,3 +1,4 @@
+import { isValidIdentifier } from '../utils/casing';
 import type { OperationBlueprint, TypeNode } from './types';
 
 export function formatTypeNode(type: TypeNode | undefined): string {
@@ -41,7 +42,8 @@ function renderBase(type: TypeNode): string {
 }
 
 function formatProperty(p: { name: string; type: TypeNode; required: boolean }): string {
-    return `${p.name}${p.required ? '' : '?'}: ${formatTypeNode(p.type)}`;
+    const name = isValidIdentifier(p.name) ? p.name : JSON.stringify(p.name);
+    return `${name}${p.required ? '' : '?'}: ${formatTypeNode(p.type)}`;
 }
 
 function wrapIfUnion(rendered: string): string {

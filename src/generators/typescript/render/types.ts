@@ -1,5 +1,6 @@
 import { formatTypeNode } from '../../../blueprint/format';
 import type { PropertyNode, SdkBlueprint, TypeNode } from '../../../blueprint/types';
+import { isValidIdentifier } from '../../../utils/casing';
 
 export interface RenderedTypes {
     namedTypes: Array<{ name: string; declaration: string }>;
@@ -30,5 +31,6 @@ function renderNamedType(name: string, type: TypeNode): string {
 }
 
 function renderPropertyLine(p: PropertyNode): string {
-    return `${p.name}${p.required ? '' : '?'}: ${formatTypeNode(p.type)};`;
+    const name = isValidIdentifier(p.name) ? p.name : JSON.stringify(p.name);
+    return `${name}${p.required ? '' : '?'}: ${formatTypeNode(p.type)};`;
 }

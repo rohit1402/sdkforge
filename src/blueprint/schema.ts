@@ -1,4 +1,5 @@
 import type { OpenAPIV3 } from 'openapi-types';
+import { sanitizeIdentifier } from '../utils/casing';
 import type { BlueprintContext } from './context';
 import type { TypeNode } from './types';
 
@@ -111,7 +112,7 @@ export function toTypeNode(
 
 function refToSchemaName(ref: string): string | undefined {
     const match = ref.match(/^#\/components\/schemas\/([^/]+)$/);
-    return match?.[1];
+    return match?.[1] ? sanitizeIdentifier(match[1]) : undefined;
 }
 
 function resolveAdditionalProperties(

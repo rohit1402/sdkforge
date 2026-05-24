@@ -38,8 +38,9 @@ function renderOperationBody(op: OperationBlueprint): string {
     const pathExpr = renderPathExpression(op.path, op.pathParams);
     const requestArgs = renderRequestArgs(op);
     const docComment = op.summary ? `    /** ${op.summary} */\n` : '';
+    const signature = params ? `${params}, options?: CallOptions` : 'options?: CallOptions';
 
-    return `${docComment}    ${op.name}(${params}, options?: CallOptions): Promise<${returnType}> {
+    return `${docComment}    ${op.name}(${signature}): Promise<${returnType}> {
         return request<${returnType}>(this.client.config, '${op.method}', ${pathExpr}${requestArgs});
     }`;
 }

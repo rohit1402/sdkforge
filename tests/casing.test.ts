@@ -1,4 +1,10 @@
-import { camelCase, isValidIdentifier, pascalCase, splitWords } from '../src/utils/casing';
+import {
+    camelCase,
+    isValidIdentifier,
+    pascalCase,
+    sanitizeIdentifier,
+    splitWords,
+} from '../src/utils/casing';
 
 describe('splitWords', () => {
     it('splits kebab-case', () => {
@@ -67,6 +73,34 @@ describe('pascalCase', () => {
 
     it('preserves single capitalized word', () => {
         expect(pascalCase('Pet')).toBe('Pet');
+    });
+});
+
+describe('sanitizeIdentifier', () => {
+    it('replaces hyphens with underscores', () => {
+        expect(sanitizeIdentifier('ConversationParam-2')).toBe('ConversationParam_2');
+    });
+
+    it('replaces dots with underscores', () => {
+        expect(sanitizeIdentifier('api_key.created')).toBe('api_key_created');
+    });
+
+    it('preserves already-valid identifiers', () => {
+        expect(sanitizeIdentifier('userId')).toBe('userId');
+        expect(sanitizeIdentifier('_private')).toBe('_private');
+        expect(sanitizeIdentifier('$dollar')).toBe('$dollar');
+    });
+
+    it('prefixes underscore for names starting with a digit', () => {
+        expect(sanitizeIdentifier('2fa')).toBe('_2fa');
+    });
+
+    it('prefixes underscore for reserved words', () => {
+        expect(sanitizeIdentifier('class')).toBe('_class');
+    });
+
+    it('collapses runs of invalid characters', () => {
+        expect(sanitizeIdentifier('foo--bar..baz')).toBe('foo_bar_baz');
     });
 });
 

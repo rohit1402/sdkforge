@@ -53,6 +53,13 @@ describe('generateTypeScript — petstore', () => {
         expect(content).toContain("import { request, type CallOptions } from '../runtime';");
     });
 
+    it('does not emit a leading comma for methods with no params', async () => {
+        const content = await readFile(join(outputDir, 'src', 'resources', 'pets.ts'), 'utf8');
+        // listPets has only an optional query — first param is `query?: ...`
+        // No method in petstore has zero params, but the signature must never start with `,`
+        expect(content).not.toMatch(/\(\s*,\s*options/);
+    });
+
     it('emits client.ts with resource properties and baseURL', async () => {
         const content = await readFile(join(outputDir, 'src', 'client.ts'), 'utf8');
         expect(content).toContain('export class SDKClient {');
