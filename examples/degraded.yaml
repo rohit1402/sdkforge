@@ -57,6 +57,25 @@ paths:
                       field:
                         type: string
 
+    put:
+      operationId: replaceItem
+      tags: [items]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: '#/components/requestBodies/BookUpdate'
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+
 components:
   schemas:
     Book:
@@ -87,3 +106,12 @@ components:
           type: integer
         message:
           type: string
+
+  requestBodies:
+    BookUpdate:
+      required: true
+      description: Replace a book's mutable fields
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Book'

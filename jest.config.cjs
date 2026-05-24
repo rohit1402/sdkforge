@@ -1,0 +1,21 @@
+/** @type {import('jest').Config} */
+module.exports = {
+    preset: 'ts-jest',
+    testEnvironment: 'node',
+    testMatch: ['<rootDir>/tests/**/*.test.ts'],
+    transform: {
+        '^.+\\.tsx?$': [
+            'ts-jest',
+            {
+                tsconfig: {
+                    module: 'commonjs',
+                    moduleResolution: 'node',
+                    esModuleInterop: true,
+                    resolveJsonModule: true,
+                    target: 'ES2022',
+                    strict: true,
+                },
+            },
+        ],
+    },
+};

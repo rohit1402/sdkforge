@@ -163,3 +163,8 @@ components:
           format: int32
         message:
           type: string
+
+    Metadata:
+      type: object
+      additionalProperties:
+        type: string

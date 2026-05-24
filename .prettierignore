@@ -1,0 +1,8 @@
+node_modules
+dist
+tmp
+coverage
+examples
+*.hbs
+src/generators/typescript/runtime-source.ts
+src/generators/typescript/templates.ts

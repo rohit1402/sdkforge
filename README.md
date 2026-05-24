@@ -75,17 +75,17 @@ cd ./tmp/petstore-sdk && npm install && npm run build
 sdkforge generate -i <input> -o <output> [flags]
 ```
 
-| Flag                   | Description                                                |
-| ---------------------- | ---------------------------------------------------------- |
-| `-i, --input <path>`   | OpenAPI 3.x spec (YAML or JSON). **Required.**             |
-| `-o, --output <path>`  | Output directory for the generated SDK. **Required.**      |
-| `-f, --force`          | Overwrite a non-empty output directory.                    |
-| `-v, --verbose`        | Print the parsed resource tree and per-file byte counts.   |
-| `-q, --quiet`          | Suppress progress lines; print errors only.                |
-| `--package-name`       | npm name in the generated `package.json`. Defaults to output dir name. |
-| `--package-version`    | Version. Default `0.1.0`.                                  |
-| `--package-author`     | Author string. Default empty.                              |
-| `--package-license`    | License. Default `UNLICENSED`.                             |
+| Flag                  | Description                                                            |
+| --------------------- | ---------------------------------------------------------------------- |
+| `-i, --input <path>`  | OpenAPI 3.x spec (YAML or JSON). **Required.**                         |
+| `-o, --output <path>` | Output directory for the generated SDK. **Required.**                  |
+| `-f, --force`         | Overwrite a non-empty output directory.                                |
+| `-v, --verbose`       | Print the parsed resource tree and per-file byte counts.               |
+| `-q, --quiet`         | Suppress progress lines; print errors only.                            |
+| `--package-name`      | npm name in the generated `package.json`. Defaults to output dir name. |
+| `--package-version`   | Version. Default `0.1.0`.                                              |
+| `--package-author`    | Author string. Default empty.                                          |
+| `--package-license`   | License. Default `UNLICENSED`.                                         |
 
 Exit codes: `0` success, `1` invalid input/spec, `2` generation error, `3` IO error.
 
@@ -129,21 +129,21 @@ The Blueprint is the project's load-bearing abstraction. Generators only see Blu
 
 ## What's supported
 
-| Feature                          | Behavior                          |
-| -------------------------------- | --------------------------------- |
-| Paths, methods, parameters       | Supported                         |
-| Path / query / header params     | Supported                         |
-| `application/json` bodies        | Supported                         |
-| `application/octet-stream`       | Supported (`Blob` return type)    |
-| `components.schemas` $refs       | Supported (preserved as type refs)|
-| Bearer auth                      | Auto-injected `Authorization` header |
-| `oneOf` / `anyOf`                | Warn + emit as TS union           |
-| `allOf`                          | Emit as TS intersection           |
-| `multipart/form-data` bodies     | Warn + skip operation             |
-| XML / SSE / streaming responses  | Warn + skip operation             |
-| OAuth flows / API-key auth       | Warn + generate client without auth |
-| Webhooks / callbacks             | Warn + skip                       |
-| Invalid OpenAPI / missing paths  | Hard error                        |
+| Feature                         | Behavior                             |
+| ------------------------------- | ------------------------------------ |
+| Paths, methods, parameters      | Supported                            |
+| Path / query / header params    | Supported                            |
+| `application/json` bodies       | Supported                            |
+| `application/octet-stream`      | Supported (`Blob` return type)       |
+| `components.schemas` $refs      | Supported (preserved as type refs)   |
+| Bearer auth                     | Auto-injected `Authorization` header |
+| `oneOf` / `anyOf`               | Warn + emit as TS union              |
+| `allOf`                         | Emit as TS intersection              |
+| `multipart/form-data` bodies    | Warn + skip operation                |
+| XML / SSE / streaming responses | Warn + skip operation                |
+| OAuth flows / API-key auth      | Warn + generate client without auth  |
+| Webhooks / callbacks            | Warn + skip                          |
+| Invalid OpenAPI / missing paths | Hard error                           |
 
 The full degradation matrix is enforced by the Blueprint layer — see `src/blueprint/`.
 
