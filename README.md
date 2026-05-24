@@ -167,9 +167,9 @@ npm run format    # Prettier with semicolons, 4-space indent
 
 Three example fixtures live in `examples/`:
 
-- `petstore.yaml` — canonical sample. Tags, refs, bearer auth, enums, nullable fields.
-- `users.yaml` — minimal spec without tags. Exercises path-segment fallback and operationId-less naming.
-- `degraded.yaml` — exercises warn-and-degrade paths: `oneOf`, `allOf`, multipart body skip.
+- `petstore.yaml` - canonical sample. Tags, refs, bearer auth, enums, nullable fields.
+- `users.yaml` - minimal spec without tags. Exercises path-segment fallback and operationId-less naming.
+- `degraded.yaml` - exercises warn-and-degrade paths: `oneOf`, `allOf`, multipart body skip.
 
 ## Project structure
 
@@ -189,6 +189,3 @@ src/
 └── utils/        — casing, singularization, logger
 ```
 
-## License
-
-UNLICENSED — personal learning project.
