@@ -188,4 +188,3 @@ src/
 ├── commands/     — Commander.js wiring
 └── utils/        — casing, singularization, logger
 ```
-
