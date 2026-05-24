@@ -1,0 +1,12 @@
+node_modules
+dist
+tmp
+*.log
+.DS_Store
+.env
+.env.*
+coverage
+
+# Internal planning notes — kept local only
+decisions.md
+requirements.md

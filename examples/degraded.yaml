@@ -1,0 +1,89 @@
+openapi: 3.0.3
+info:
+  title: Degradation Cases
+  version: 0.1.0
+  description: Spec that intentionally exercises warn+degrade paths (oneOf, allOf, anonymous nesting).
+
+servers:
+  - url: https://api.example.com
+
+paths:
+  /uploads:
+    post:
+      operationId: uploadFile
+      tags: [items]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Uploaded
+
+  /items/{id}:
+    get:
+      operationId: getItem
+      tags: [items]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: An item, either a Book or a Movie
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Book'
+                  - $ref: '#/components/schemas/Movie'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseError'
+                  - type: object
+                    properties:
+                      field:
+                        type: string
+
+components:
+  schemas:
+    Book:
+      type: object
+      required: [id, title]
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+
+    Movie:
+      type: object
+      required: [id, title, runtimeMinutes]
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        runtimeMinutes:
+          type: integer
+
+    BaseError:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
